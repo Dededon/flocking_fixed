@@ -1,10 +1,9 @@
-*Text adapted from Mesa Examples project*
-
 # Flockers
 
 An implementation of Craig Reynolds's Boids flocker model. Agents (simulated birds) try to fly towards the average position of their neighbors and in the same direction as them, while maintaining a minimum distance. This produces flocking behavior.
 
 This model tests Mesa's continuous space feature, and uses numpy arrays to represent vectors. It also demonstrates how to create custom visualization components.
+This model also fixes the issue of agents condensing in clusters in the example model of mesa by rewriting the step update logic.
 
 Note that you have two components you can turn on: 'Jiggle Points', which separates the agents visually / positionally, and 'Set seed to 10?' which allows you to set a seed. 
 
