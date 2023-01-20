@@ -18,7 +18,7 @@ def boid_draw(agent):
 boid_canvas = SimpleCanvas(boid_draw, 500, 500)
 model_params = {
     "population": UserParam.Slider("Population Size",
-                                      int(0.01 * 100 ** 2), 0, 0.1*100 ** 2, 10), 
+                                      200, 0, 0.1*100 ** 2, 10), 
     "width": 200,
     "height": 200,
     "speed": UserParam.Slider("Speed", 5, 1, 10, 1),
