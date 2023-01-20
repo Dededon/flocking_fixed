@@ -118,7 +118,7 @@ class Boid(mesa.Agent):
         
         new_angle = np.rad2deg(np.arctan(new_velocity [1] / new_velocity [0]))
 
-        #print(np.absolute(new_angle - angle))
+        
         if self.model.jiggle:
             if abs(new_angle - angle) > self.model.max_separate_turn:
                 new_velocity = [1, np.tan(angle + np.sign(new_angle - angle) * self.model.max_separate_turn)]
@@ -186,6 +186,9 @@ class Boid(mesa.Agent):
         # Turning Rate is essential
         if flag:
             '''
+            Agents gone in separate direction if too closed to each other
+            '''
+            '''
             self.velocity += (
                 self.separate(neighbors) * self.separate_factor
                 ) / n_neighbors
@@ -197,50 +200,21 @@ class Boid(mesa.Agent):
             
         else: 
             '''
-            self.velocity += (
-                self.cohere(neighbors) * self.cohere_factor
-                + self.match_heading(neighbors) * self.match_factor
-            ) / n_neighbors
-            self.velocity /= np.linalg.norm(self.velocity)  
+            Agents align and cohere if not too closed
             '''
-            self.align_angle_limit(neighbors)
-            self.cohere_angle_limit(neighbors)
+            if self.model.jiggle:
+                self.velocity += (
+                    self.cohere(neighbors) * self.cohere_factor
+                    + self.match_heading(neighbors) * self.match_factor
+                ) / n_neighbors
+                self.velocity /= np.linalg.norm(self.velocity)  
+            else:
+                self.align_angle_limit(neighbors)
+                self.cohere_angle_limit(neighbors)
             
             
         new_pos = self.pos + self.velocity * self.speed
-        #print(f"in method: agent {self.unique_id}, method new_pos {new_pos}")
-
-        # jiggle is for the pretty_plot function to hard code the separation
-        #if self.model.jiggle:
-            #print(f"in step before: {self.unique_id = }, method {new_pos =}")
-        #    new_pos = self.pretty_plot(neighbors, new_pos)
-            #print(f"after {self.unique_id = }, method {new_pos = }")
 
         self.model.space.move_agent(self, new_pos)
 
-        '''
-        def step(self):
-        """
-        Get the Boid's neighbors, compute the new vector, and move accordingly.
-        """
-        
-        neighbors = self.model.space.get_neighbors(self.pos, self.vision, False)
-        
-
-        self.velocity += (
-            self.cohere(neighbors) * self.cohere_factor
-            + self.separate(neighbors) * self.separate_factor
-            + self.match_heading(neighbors) * self.match_factor
-        ) / 2
-        self.velocity /= np.linalg.norm(self.velocity)  # Fallacious step?
-        new_pos = self.pos + self.velocity * self.speed
-        #print(f"in method: agent {self.unique_id}, method new_pos {new_pos}")
-
-        # jiggle is for the pretty_plot function to hard code the separation
-        if self.model.jiggle:
-            #print(f"in step before: {self.unique_id = }, method {new_pos =}")
-            new_pos = self.pretty_plot(neighbors, new_pos)
-            #print(f"after {self.unique_id = }, method {new_pos = }")
-
-        self.model.space.move_agent(self, new_pos)
-        '''
+       
