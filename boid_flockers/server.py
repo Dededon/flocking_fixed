@@ -21,7 +21,7 @@ model_params = {
                                       200, 0, 0.1*100 ** 2, 10), 
     "width": 200,
     "height": 200,
-    "speed": UserParam.Slider("Speed", 5, 1, 10, 1),
+    "speed": UserParam.Slider("Speed", 2, 1, 10, 1),
     "vision": UserParam.Slider("Vision", 10, 0, 25, 1),
     "separation": UserParam.Slider("Separation", 1.2, 0, 5, 0.05),
     "cohere": UserParam.Slider("Cohesion", 0.8, 0, 4, 0.1),
